@@ -1,0 +1,67 @@
+﻿@model PlayerLookup.Models.NbaPlayerSearchViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Player Search</title>
+</head>
+<body>
+@Html.ActionLink("My Tracked Players","Index","PlayerTracker")
+<br />
+<h2>NBA Player Search</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Search", "PlayerSearch"))
+        {
+            @Html.TextBoxFor(m => m.SearchTerm);
+            <input type="submit" value="Search" id="btnSubmit" />
+        }
+    </div>
+</div>
+
+<div hidden="@(!Model.Results.Any())">
+    <h4>Search Resulst for: "@Model.SearchTerm"</h4>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>
+                    Player Name
+                </th>
+                <th>
+                    Position
+                </th>
+                <th>
+                    Team
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var player in Model.Results)
+            {
+                <tr>
+                    <td>
+                        @(player.first_name + " " + player.last_name)
+                    </td>
+                    <td>
+                        @player.position
+                    </td>
+                    <td>
+                        @player.team.full_name
+                    </td>
+                    <td>
+                        @Html.ActionLink("Track Player", "TrackPlayer", "PlayerSearch", player)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div hidden="@String.IsNullOrWhiteSpace(Model.ErrorMessage)">
+    @Html.DisplayFor(m => m.ErrorMessage)
+</div>
+</body>
+</html>

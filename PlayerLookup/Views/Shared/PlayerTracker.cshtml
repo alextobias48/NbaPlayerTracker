@@ -1,0 +1,115 @@
+﻿@model PlayerLookup.Models.NbaPlayerTrackerViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>My Player Tracker</title>
+</head>
+<body>
+    @Html.ActionLink("Return To Player Search", "Index", "PlayerSearch")
+    <h2>My Tracked Players</h2>
+    <br />
+    <div hidden="@(Model.TrackedPlayers.Any())">
+        You haven't added any players to track yet! Return to the Search page and add your favorite NBA players.
+    </div>
+    <div hidden="@(!Model.TrackedPlayers.Any())">
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th>
+                        Player
+                    </th>
+                    <th>
+                        Feet
+                    </th>
+                    <th>
+                        Inches
+                    </th>
+                    <th>
+                        Weight
+                    </th>
+                    <th>
+                        Last Played
+                    </th>
+                    <th>
+                        Score
+                    </th>
+                    <th>
+                        Minutes Played
+                    </th>
+                    <th>
+                        Points
+                    </th>
+                    <th>
+                        Rebounds
+                    </th>
+                    <th>
+                        Assists
+                    </th>
+                    <th>
+                        Steals
+                    </th>
+                    <th>
+                        Blocks
+                    </th>
+                    <th>
+                        Fouls
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var player in Model.TrackedPlayers)
+                {
+                    <tr>
+                        <td>
+                            @(player.Player.first_name + " " + player.Player.last_name)
+                        </td>
+                        <td>
+                            @(player.Player.height_feet )
+                        </td>
+                        <td>
+                            @player.Player.height_inches
+                        </td>
+                        <td>
+                            @player.Player.weight_pounds
+                        </td>
+                        <td>
+                            @player.LatestStats.game.date.ToString("MM/dd/yyyy")
+                        </td>
+                        <td>
+                            @(player.LatestStats.game.home_team_score + " - " + player.LatestStats.game.visitor_team_score)
+                        </td>
+                        <td>
+                            @player.LatestStats.min
+                        </td>
+                        <td>
+                            @player.LatestStats.pts
+                        </td>
+                        <td>
+                            @player.LatestStats.reb
+                        </td>
+                        <td>
+                            @player.LatestStats.ast
+                        </td>
+                        <td>
+                            @player.LatestStats.stl
+                        </td>
+                        <td>
+                            @player.LatestStats.blk
+                        </td>
+                        <td>
+                            @player.LatestStats.pf
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
